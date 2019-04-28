@@ -12,6 +12,10 @@
  *
  */
 
+Array.prototype.flatMap = function(lambda) {
+  return [].concat.apply([], this).map(lambda);
+};
+
 const DATA_SOURCE = [
     'ada',
     'alla',
@@ -30,11 +34,44 @@ let outputNotPalindromes = [];
 // please start your implementation below:
 //
 
+class palindromeFinderClass {
+    constructor() {
+        this.loadDataSource();
+    }
+
+    loadDataSource() {
+      DATA_SOURCE.flatMap((word) => {
+        let isPalindrome = true;
+        if(typeof word === 'number') {
+          word = word.toString();
+        }
+        for (let i = 0; i < word.length; i++) {
+          if(word[i] !== word[word.length-(i+1)]) {
+            isPalindrome = false;
+          }
+        }
+        if(isPalindrome) {
+          outputPalindromes.push(word);
+        } else {
+          outputNotPalindromes.push(word);
+        }
+      });
+    }
+
+    find() {
+        return outputPalindromes;
+    }
+
+    findOther() {
+        return outputNotPalindromes;
+    }
+}
 
 //
 // end of your implementation
 // ----------------------------------- <
 
+const palindromeFinder = new palindromeFinderClass();
 // should return words extracted from DATA_SOURCE that are palindromes:
 console.log('found palindromes: ',palindromeFinder.find());
 
